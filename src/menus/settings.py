@@ -1,9 +1,6 @@
-import sys
-import pygame
+import sys, pygame
 
-from src.utils.button import Button
-from src.utils.get_font import get_font
-
+from src.utils import Button, get_font
 
 class Settings:
 

@@ -1,11 +1,8 @@
-import sys
-import pygame
+import sys, pygame
 
-from src.menus.settings import Settings
-from src.utils.button import Button
-from src.core.game import Game
-from src.utils.get_font import get_font
-
+from src.menus import Settings
+from src.utils import Button, get_font
+from src.core import Game
 
 class MainMenu:
     def __init__(self):

@@ -1,6 +1,5 @@
 import pygame
 
-
 class DialogBox:
 
     X_POSITION = 60
