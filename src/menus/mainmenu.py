@@ -12,6 +12,7 @@ class MainMenu:
         self.img_bg = pygame.image.load("assets/menu/Background.png")
         self.display_menu = True
         self.game = Game()
+        self.settings = Settings()
         self.y = self.game.screen.get_height()
         self.x = self.game.screen.get_width()
 
@@ -42,7 +43,7 @@ class MainMenu:
                     if play_btn.checkForInput(mouse_pos):
                         self.game.run()
                     if stg_btn.checkForInput(mouse_pos):
-                        Settings.options(self)
+                        Settings.run(self, MainMenu(), self.game.screen)
                     if quit_btn.checkForInput(mouse_pos):
                         pygame.quit()
                         sys.exit()
