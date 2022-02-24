@@ -1,5 +1,9 @@
+from tkinter.font import Font
+from pygame import Surface, Vector2
+
+
 class Button:
-    def __init__(self, image, pos, text_input, font, base_color, hovering_color):
+    def __init__(self, image: Surface, pos: Vector2, text_input: str, font: Font, base_color: str, hovering_color: str):
         self.image = image
         self.x_pos = pos[0]
         self.y_pos = pos[1]
