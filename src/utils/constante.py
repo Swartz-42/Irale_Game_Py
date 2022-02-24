@@ -1,0 +1,1 @@
+MOUSELEFT = 1
