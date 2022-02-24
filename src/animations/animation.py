@@ -1,6 +1,5 @@
 import pygame
 
-
 # definir classe animation
 class AnimateSprite(pygame.sprite.Sprite):
 

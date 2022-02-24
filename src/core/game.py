@@ -1,8 +1,8 @@
 import pygame
 
-from src.entities.player import Player
-from src.utils.dialog import DialogBox
-from src.core.map import MapManager
+from src.entities import Player
+from src.utils import DialogBox
+from src.map import MapManager
 
 
 class Game:

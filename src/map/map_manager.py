@@ -1,26 +1,7 @@
-from dataclasses import dataclass
 import pygame, pytmx, pyscroll
 
-from src.entities.player import NPC
-
-
-@dataclass
-class Portal:
-    from_world: str
-    origin_point: str
-    to_world: str
-    tp_point: str
-
-
-@dataclass
-class Map:
-    name: str
-    walls: list[pygame.Rect]
-    group: pyscroll.PyscrollGroup
-    tmx_data: pytmx.TiledMap
-    portals: list[Portal]
-    npcs: list[NPC]
-
+from src.map import Portal, World
+from src.entities import Npc
 
 class MapManager:
     def __init__(self, screen, player):
@@ -33,7 +14,7 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_house", to_world="house", tp_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_dungeon", to_world="dungeon", tp_point="spawn_dungeon")
         ], npcs=[
-            NPC("paul", nb_points=4, dialog=["Hey jeune aventurier !", "Tu connais Brohr Rolnarson Drakung ?", "C'est ma PUTE !!!"])
+            Npc("paul", nb_points=4, dialog=["Hey jeune aventurier !", "Tu connais Brohr Rolnarson Drakung ?", "C'est ma PUTE !!!"])
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", to_world="world", tp_point="spawn_exit_house")
@@ -61,7 +42,7 @@ class MapManager:
         #collision mur
         for sprite in self.get_group().sprites():
 
-            if type(sprite) is NPC:
+            if type(sprite) is Npc:
                 if sprite.feet.colliderect(self.player.rect):
                     sprite.speed = 0
                 else:
@@ -93,7 +74,7 @@ class MapManager:
         for npc in npcs:
             group.add(npc)
 
-        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs)
+        self.maps[name] = World(name, walls, group, tmx_data, portals, npcs)
 
     def tp_player(self, name):
         point = self.get_object(name)
@@ -130,5 +111,5 @@ class MapManager:
 
     def check_npc_collisions(self, dialog_box):
         for sprite in self.get_group().sprites():
-            if sprite.feet.colliderect(self.player.rect) and type(sprite) is NPC:
+            if sprite.feet.colliderect(self.player.rect) and type(sprite) is Npc:
                 dialog_box.execute(sprite.dialog)
