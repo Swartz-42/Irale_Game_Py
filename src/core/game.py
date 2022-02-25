@@ -76,4 +76,3 @@ class Game:
                         self.map_manager.check_npc_collisions(self.dialog_box)
 
             clock.tick(60)
-        self.disp()
