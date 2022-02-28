@@ -1,8 +1,10 @@
 import pygame
 
+from src.control import Control
 from src.entities import Player
 from src.utils import DialogBox
 from src.map import MapManager
+from src.utils.freequit import freeExit
 
 
 class Game:
@@ -21,48 +23,14 @@ class Game:
         self.map_manager = MapManager(self.screen, self.player)
         self.dialog_box = DialogBox()
 
-    # definir control
-    def handle_input(self):
-        pressed = pygame.key.get_pressed()
-        up = pressed[pygame.K_z]
-        down = pressed[pygame.K_s]
-        right = pressed[pygame.K_d]
-        left = pressed[pygame.K_q]
-        esc = pressed[pygame.K_ESCAPE]
-
-        if up & right:
-            self.player.move_up()
-            self.player.move_right()
-        elif up & left:
-            self.player.move_up()
-            self.player.move_left()
-        elif down & right:
-            self.player.move_down()
-            self.player.move_right()
-        elif down & left:
-            self.player.move_down()
-            self.player.move_left()
-        elif down:
-            self.player.move_down()
-        elif right:
-            self.player.move_right()
-        elif left:
-            self.player.move_left()
-        elif up:
-            self.player.move_up()
-        elif esc:
-            self.running = False
-
-    def update(self):
-        self.map_manager.update()
-
     def run(self):
         clock = pygame.time.Clock()
+        self.running = True
         # boucle du jeu
         while self.running:
 
             self.player.save_location()
-            self.handle_input()
+            self.running = Control().key_pressed(self.player)
             self.update()
             self.map_manager.draw()
             self.dialog_box.render(self.screen)
@@ -70,9 +38,12 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    freeExit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e:
                         self.map_manager.check_npc_collisions(self.dialog_box)
 
             clock.tick(60)
+
+    def update(self):
+        self.map_manager.update()
