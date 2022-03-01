@@ -9,6 +9,7 @@ class Npc(Entity):
         self.dialog = dialog
         self.points = []
         self.name = name
+        self.hp = 100
         self.speed = 1
         self.current_point = 0
 
@@ -34,7 +35,6 @@ class Npc(Entity):
         if self.rect.colliderect(target_rect):
             self.current_point = target_point
 
-
     def teleport_spawn(self):
         location = self.points[self.current_point]
         self.position[0] = location.x
@@ -46,3 +46,12 @@ class Npc(Entity):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
             rect = pygame.Rect(point.x, point.y, point.width, point.height)
             self.points.append(rect)
+
+    def update_hp(self, screen):
+        hp_color = (230, 0, 0)
+        hp_back_color = (0, 0, 0)
+        #             [x, y, width, height]
+        hp_position = [self.rect.x, self.rect.y, self.hp, 10]
+        hp_back_position = [self.rect.x, self.rect.y, 100, 10]
+        pygame.draw.rect(screen, hp_color, hp_position)
+        pygame.draw.rect(screen, hp_back_color, hp_back_position)

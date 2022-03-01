@@ -3,6 +3,7 @@ import pygame, pytmx, pyscroll
 from src.map import Portal, World
 from src.entities import Npc
 
+
 class MapManager:
     def __init__(self, screen, player):
         self.maps = dict()  # "house" -> Map("house", walls, group)
@@ -14,7 +15,8 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_house", to_world="house", tp_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_dungeon", to_world="dungeon", tp_point="spawn_dungeon")
         ], npcs=[
-            Npc("paul", nb_points=4, dialog=["Hey jeune aventurier !", "Tu connais Brohr Rolnarson Drakung ?", "C'est ma PUTE !!!"])
+            Npc("paul", nb_points=4,
+                dialog=["Hey jeune aventurier !", "Tu connais Brohr Rolnarson Drakung ?", "C'est ma PUTE !!!"])
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", to_world="world", tp_point="spawn_exit_house")
@@ -39,7 +41,7 @@ class MapManager:
                     self.current_map = portal.to_world
                     self.tp_player(copy_portal.tp_point)
 
-        #collision mur
+        # collision
         for sprite in self.get_group().sprites():
 
             if type(sprite) is Npc:
@@ -82,13 +84,17 @@ class MapManager:
         self.player.position[1] = point.y
         self.player.save_location()
 
-    def get_map(self): return self.maps[self.current_map]
+    def get_map(self):
+        return self.maps[self.current_map]
 
-    def get_group(self): return self.get_map().group
+    def get_group(self):
+        return self.get_map().group
 
-    def get_walls(self): return self.get_map().walls
+    def get_walls(self):
+        return self.get_map().walls
 
-    def get_object(self, name): return self.get_map().tmx_data.get_object_by_name(name)
+    def get_object(self, name):
+        return self.get_map().tmx_data.get_object_by_name(name)
 
     def tp_npcs(self):
         for map in self.maps:
@@ -102,14 +108,15 @@ class MapManager:
         self.get_group().draw(self.screen)
         self.get_group().center(self.player.rect.center)
 
+    def check_npc_collisions(self, dialog_box):
+        for sprite in self.get_group().sprites():
+            if sprite.feet.colliderect(self.player.rect) and type(sprite) is Npc:
+                dialog_box.execute(sprite.dialog)
+
     def update(self):
         self.get_group().update()
         self.check_collision()
 
         for npc in self.get_map().npcs:
             npc.move()
-
-    def check_npc_collisions(self, dialog_box):
-        for sprite in self.get_group().sprites():
-            if sprite.feet.colliderect(self.player.rect) and type(sprite) is Npc:
-                dialog_box.execute(sprite.dialog)
+            npc.update_hp(self.screen)

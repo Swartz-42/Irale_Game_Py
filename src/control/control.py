@@ -15,7 +15,7 @@ class Control:
         self.down_right = self.down + self.right
         self.down_left = self.down + self.left
 
-    def key_pressed(self, player):
+    def key_move(self, player):
 
         self.update()
 

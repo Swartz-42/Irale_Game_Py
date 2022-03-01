@@ -3,8 +3,10 @@ import pygame
 
 import src.utils as utils
 
+
 class Button:
-    def __init__(self, surface: pygame.Surface, rect: tuple, func: any, text: str, background_color: tuple, text_color: tuple, hovering_color: tuple, text_size: int = 75):
+    def __init__(self, surface: pygame.Surface, rect: tuple, func: any, text: str, background_color: tuple,
+                 text_color: tuple, hovering_color: tuple, text_size: int = 75):
         self.surface = surface
         self.pos = rect[:2]
         if len(rect) != 2:
@@ -20,10 +22,10 @@ class Button:
         self.func = func
 
         self.update_text(self.text, text_size)
-        
+
         self.old_mouse_state = False
         self.old_hover_state = False
-        
+
     def update(self):
         self.background = utils.draw_rect_alpha(self.surface, self.background_color, (
             self.pos[0],
@@ -35,14 +37,15 @@ class Button:
             self.background.y + ((self.height / 2) - self.text_boundaries.height / 2),
             self.text_boundaries.width,
             self.text_boundaries.height))
-        
+
     def click(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.background.collidepoint(event.pos) and pygame.mouse.get_pressed()[0]:
                 self.background_color = utils.increase_alpha_on_color(self.background_color, 50)
                 return True
         elif event.type == pygame.MOUSEBUTTONUP:
-            if self.old_mouse_state == pygame.MOUSEBUTTONDOWN and event.button == utils.MOUSELEFT and self.background.collidepoint(event.pos):
+            if self.old_mouse_state == pygame.MOUSEBUTTONDOWN and event.button == utils.MOUSELEFT and self.background.collidepoint(
+                    event.pos):
                 self.background_color = utils.reduce_alpha_on_color(self.background_color, 50)
         if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEBUTTONUP:
             self.old_mouse_state = event.type
@@ -51,15 +54,15 @@ class Button:
     def hover(self, event):
         if event.type != pygame.MOUSEMOTION:
             return False
-            
+
         if self.background.collidepoint(event.pos):
             if not self.old_hover_state:
                 self.text_render = self.font.render(self.text, True, self.hovering_color)
                 self.old_hover_state = True
                 return True
         elif self.old_hover_state:
-                self.text_render = self.font.render(self.text, True, self.text_color)
-                self.old_hover_state = False
+            self.text_render = self.font.render(self.text, True, self.text_color)
+            self.old_hover_state = False
         return False
 
     def update_text(self, text: str, text_size: int = 75):

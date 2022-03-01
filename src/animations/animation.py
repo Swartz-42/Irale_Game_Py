@@ -1,5 +1,6 @@
 import pygame
 
+
 # definir classe animation
 class AnimateSprite(pygame.sprite.Sprite):
 
@@ -27,7 +28,6 @@ class AnimateSprite(pygame.sprite.Sprite):
         self.clock += self.speed * 8
 
         if self.clock >= 100:
-
             self.animation_index += 1
             if self.animation_index >= len(self.images[name]):
                 self.animation_index = 0
@@ -37,10 +37,9 @@ class AnimateSprite(pygame.sprite.Sprite):
         images = []
 
         for i in range(0, 3):
-            x = i*32
+            x = i * 32
             image = self.get_image(x, y)
             images.append(image)
-
         return images
 
     def get_image(self, x, y):
