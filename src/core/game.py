@@ -3,6 +3,8 @@ import pygame
 from src.entities import Player
 from src.utils import DialogBox
 from src.map import MapManager
+from src.utils import freeExit
+from .control import Control
 
 
 class Game:
@@ -14,46 +16,16 @@ class Game:
         # creer la fenetre du jeu
         self.screen = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("Irale - Le jeux video")
-        self.running = True
 
-        # generer le joueur
         self.player = Player()
+        self.control = Control()
         self.map_manager = MapManager(self.screen, self.player)
         self.dialog_box = DialogBox()
-
-    # definir control
-    def handle_input(self):
-        pressed = pygame.key.get_pressed()
-        up = pressed[pygame.K_z]
-        down = pressed[pygame.K_s]
-        right = pressed[pygame.K_d]
-        left = pressed[pygame.K_q]
-        esc = pressed[pygame.K_ESCAPE]
-
-        if up & right:
-            self.player.move_up()
-            self.player.move_right()
-        elif up & left:
-            self.player.move_up()
-            self.player.move_left()
-        elif down & right:
-            self.player.move_down()
-            self.player.move_right()
-        elif down & left:
-            self.player.move_down()
-            self.player.move_left()
-        elif down:
-            self.player.move_down()
-        elif right:
-            self.player.move_right()
-        elif left:
-            self.player.move_left()
-        elif up:
-            self.player.move_up()
-        elif esc:
-            self.running = False
+        self.running = True
 
     def update(self):
+        self.player.save_location()
+        self.running = self.control.move(self.player)
         self.map_manager.update()
 
     def run(self):
@@ -61,16 +33,18 @@ class Game:
         # boucle du jeu
         while self.running:
 
-            self.player.save_location()
-            self.handle_input()
+            #move de toute les entiters
             self.update()
+
+            #mise a jour affichage
             self.map_manager.draw()
             self.dialog_box.render(self.screen)
             pygame.display.flip()
 
+            #check event
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    freeExit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e:
                         self.map_manager.check_npc_collisions(self.dialog_box)

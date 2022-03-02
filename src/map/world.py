@@ -4,6 +4,7 @@ import pygame, pytmx, pyscroll
 from src.map import Portal
 from src.entities import Npc
 
+
 @dataclass
 class World:
     name: str

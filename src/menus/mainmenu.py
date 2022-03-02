@@ -1,13 +1,11 @@
-import sys, pygame
+import pygame
 
 from src.menus.buttons import PlayButton, SettingButton, QuitButton
 from src.menus import Settings
 from src.utils import get_font
 from src.core import Game
+from src.utils import freeExit
 
-def freeExit():
-    pygame.quit()
-    sys.exit()
 
 class MainMenu:
     def __init__(self):

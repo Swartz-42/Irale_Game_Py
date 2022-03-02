@@ -4,19 +4,24 @@ import pygame
 class AnimateSprite(pygame.sprite.Sprite):
 
     # init création entité
-    def __init__(self, name):
+    def __init__(self, name, nb_sprite, nb_face):
         super().__init__()
-        self.sprite_sheet = pygame.image.load(f'assets/character/{name}.png')
+        self.sprite = pygame.image.load(f'assets/character/{name}.svg').convert_alpha()
+        self.nb_sprite = nb_sprite
+        self.nb_face = nb_face
+        self.width_sprite = (self.sprite.get_width() / self.nb_sprite)
+        self.height_sprite = (self.sprite.get_height() / self.nb_face)
         self.animation_index = 0
         self.clock = 0
-        self.images = {
-            'down': self.get_images(0),
-            'left': self.get_images(32),
-            'right': self.get_images(64),
-            'up': self.get_images(96),
-        }
         self.speed = 2
         self.animation = False
+
+        self.images = {
+            'down': self.get_line_svgs(0),
+            'right': self.get_line_svgs(1),
+            'left': self.get_line_svgs(2),
+            'up': self.get_line_svgs(3)
+        }
 
     def start_animation(self):
         self.animation = True
@@ -33,17 +38,22 @@ class AnimateSprite(pygame.sprite.Sprite):
                 self.animation_index = 0
             self.clock = 0
 
-    def get_images(self, y):
+    # boucle sur toute les image d'une ligne
+    def get_line_svgs(self, line):
         images = []
 
-        for i in range(0, 3):
-            x = i*32
-            image = self.get_image(x, y)
-            images.append(image)
-
+        for i in range(0, self.nb_sprite):
+            x = self.width_sprite * i
+            images.append(self.get_svg(x, line))
         return images
 
-    def get_image(self, x, y):
-        image = pygame.Surface([32, 32])
-        image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
+    # recup une image
+    def get_svg(self, x, line):
+        # création du calque
+        image = pygame.Surface([self.width_sprite, self.height_sprite])
+        # copie svg / colle sur le calque: (position en x, position en y du cadre, taille en x, taille en y du cadre)
+        image.blit(self.sprite, (5, 5), (x, (self.height_sprite * line), self.width_sprite, self.height_sprite))
+        # resize image en 30*30
+        image = pygame.transform.scale(image, (30, 30))
+        # renvoie l'image d'un sprite
         return image

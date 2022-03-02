@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.1" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="189">
+<map version="1.8" tiledversion="1.8.1" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="191">
  <tileset firstgid="1" source="../assets/Nature_asset.tsx"/>
  <tileset firstgid="721" name="House" tilewidth="16" tileheight="16" tilecount="775" columns="31">
   <image source="../assets/house.png" trans="000000" width="500" height="400"/>
@@ -480,9 +480,9 @@
   <object id="184" name="enter_dungeon" x="255.25" y="768.25" width="113.091" height="31.8182"/>
  </objectgroup>
  <objectgroup id="10" name="NPC_Path">
-  <object id="185" name="paul_path1" x="208" y="47.5" width="16.25" height="16.25"/>
-  <object id="186" name="paul_path2" x="207.75" y="128.25" width="16.5" height="16"/>
-  <object id="187" name="paul_path3" x="111.5" y="127.75" width="16.75" height="16.75"/>
-  <object id="188" name="paul_path4" x="111.614" y="47.6364" width="16.5" height="16.75"/>
+  <object id="185" name="link_path1" x="208" y="47.5" width="16.25" height="16.25"/>
+  <object id="186" name="link_path2" x="158.75" y="79.75" width="16.5" height="16"/>
+  <object id="187" name="link_path3" x="111.5" y="127.75" width="16.75" height="16.75"/>
+  <object id="188" name="link_path4" x="111.614" y="47.6364" width="16.5" height="16.75"/>
  </objectgroup>
 </map>
